@@ -3,7 +3,7 @@ msg() {
     BOLD="\e[1;1m"
     GREEN="${BOLD}\e[1;32m"
 	local mesg=$1; shift
-	printf "${GREEN}==>${ALL_OFF}${BOLD} ${mesg}${ALL_OFF}" "$@" >&2
+	printf "${GREEN}==>${ALL_OFF}${BOLD} ${mesg}${ALL_OFF}\n" "$@" >&2
 }
 
 add_users() {
