@@ -1,0 +1,55 @@
+# Maintainer: Louie Chen <louielchen[at]outlook[dot]com>
+# This package is derived from https://aur.archlinux.org/packages/visual-studio-code-bin
+
+pkgname=visual-studio-code-bin
+_pkgname=visual-studio-code
+pkgver=1.77.0
+pkgrel=1
+pkgdesc="Visual Studio Code (vscode): Code Editing. Refined."
+arch=('x86_64')
+url="https://github.com/louielchen/aur/tree/main/pkgs/visual-studio-code-bin"
+license=('custom: commercial')
+provides=('code' 'vscode')
+conflicts=('code')
+install=code.install
+depends=(libxkbfile gnupg gtk3 libsecret nss gcc-libs libnotify libxss glibc lsof shared-mime-info xdg-utils alsa-lib)
+optdepends=('glib2: Needed for move to trash functionality'
+            'libdbusmenu-glib: Needed for KDE global menu'
+            'org.freedesktop.secrets: Needed for settings sync'
+             # See https://github.com/MicrosoftDocs/live-share/issues/4650
+            'icu69: Needed for live share' )
+source=(
+    'code.desktop'
+    'code-workspace.xml'
+    'code-url-handler.desktop'
+    'code.sh')
+source_x86_64=(code_x64_${pkgver}.tar.gz::https://update.code.visualstudio.com/${pkgver}/linux-x64/stable)
+sha256sums=(
+    '55f8e7dc1848013f5e66e072b2f21d6a11619875ec0609ca478b3bfa3e6f6fad'
+    'f7be73b8773d01ca8d97f4760d43175c533a492b0acdc1e49be63bbe567ed3c0'
+    '567e8374e221ea78706f12e9061b0a60b3b9df7784e3f235ea1026d2ac5d4454'
+    '0bb7e9fd4a7262812d799bc5e8c646e794498dc42c4204474ae0a8d3818eabbf'
+    )
+sha256sums_x86_64=('a8d841d3aa65ea3daaaae2262dba46b54e14e5ee163bfe82acf903735a1835c9')
+
+package() {
+  _pkg=VSCode-linux-x64
+
+  install -d "${pkgdir}/usr/share/licenses/${_pkgname}"
+  install -d "${pkgdir}/usr/bin"
+  install -d "${pkgdir}/usr/share/applications"
+  install -d "${pkgdir}/usr/share/icons" 
+  install -d "${pkgdir}/usr/share/mime/packages"
+  install -d "${pkgdir}/opt"
+
+  install -m644 "${srcdir}/${_pkg}/resources/app/LICENSE.rtf" "${pkgdir}/usr/share/licenses/${_pkgname}/LICENSE.rtf"
+  install -m644 "${srcdir}/${_pkg}/resources/app/resources/linux/code.png" "${pkgdir}/usr/share/icons/${_pkgname}.png"
+  install -m644 "${srcdir}/code.desktop" "${pkgdir}/usr/share/applications/code.desktop"
+  install -m644 "${srcdir}/code-url-handler.desktop" "${pkgdir}/usr/share/applications/code-url-handler.desktop"
+  install -m644 "${srcdir}/code-workspace.xml" "${pkgdir}/usr/share/mime/packages/code-workspace.xml"
+  install -m755 "${srcdir}/code.sh" "${pkgdir}/usr/bin/code"
+  install -Dm 644 "${srcdir}/${_pkg}/resources/completions/bash/code" "${pkgdir}/usr/share/bash-completion/completions/code"
+  install -Dm 644 "${srcdir}/${_pkg}/resources/completions/zsh/_code" "${pkgdir}/usr/share/zsh/site-functions/_code"
+
+  cp -r "${srcdir}/${_pkg}" "${pkgdir}/opt/${_pkgname}"
+}

@@ -1,0 +1,26 @@
+# Maintainer: Louie Chen <louielchen[at]outlook[dot]com>
+# This package is derived from https://gitlab.manjaro.org/packages/extra/manjaro-settings-samba
+
+pkgname=samba-settings
+pkgver=20230107
+pkgrel=1
+pkgdesc="Set up samba with basic config"
+arch=('any')
+url="https://github.com/louielchen/aur/tree/main/pkgs/samba-settings"
+license=('GPL')
+depends=('samba')
+optdepends=('avahi: make the server discoverable with Zeroconf')
+install="$pkgname.install"
+backup=('etc/samba/smb.conf')
+source=('smb.conf')
+sha256sums=('586fa4eafae96565c40801b187515a9158feb1f49f6b1e971f22bdd6a93462a2')
+
+pkgver() {
+  date +%Y%m%d
+}
+
+package() {
+  install -Dm644 smb.conf -t "$pkgdir/etc/samba/"
+  install -d "$pkgdir/var/lib/samba/usershare"
+  chmod 1770 "$pkgdir/var/lib/samba/usershare"
+}

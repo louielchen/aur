@@ -1,0 +1,15 @@
+pkgbase = samba-settings
+	pkgdesc = Set up samba with basic config
+	pkgver = 20230107
+	pkgrel = 1
+	url = https://github.com/louielchen/aur/tree/main/pkgs/samba-settings
+	install = samba-settings.install
+	arch = any
+	license = GPL
+	depends = samba
+	optdepends = avahi: make the server discoverable with Zeroconf
+	backup = etc/samba/smb.conf
+	source = smb.conf
+	sha256sums = 586fa4eafae96565c40801b187515a9158feb1f49f6b1e971f22bdd6a93462a2
+
+pkgname = samba-settings
